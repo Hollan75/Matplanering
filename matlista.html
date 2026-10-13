@@ -13,16 +13,12 @@
       --text: #1c1917;
       --text-muted: #78716c;
       --primary: #ea580c;
-      --primary-light: #fff7ed;
       --primary-hover: #c2410c;
       --green: #16a34a;
       --green-light: #f0fdf4;
       --green-hover: #15803d;
-      --red: #dc2626;
-      --red-light: #fef2f2;
       --border: #e7e5e4;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-      --shadow: 0 4px 16px rgba(0,0,0,0.10);
       --radius: 16px;
       --radius-sm: 10px;
     }
@@ -39,26 +35,15 @@
     .app-header {
       background: var(--white);
       border-bottom: 1px solid var(--border);
-      padding: 18px 20px 14px;
+      padding: 16px 20px 12px;
       text-align: center;
       position: sticky;
       top: 0;
       z-index: 50;
       box-shadow: var(--shadow-sm);
     }
-
-    .app-header h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .app-header .subtitle {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
+    .app-header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    .app-header .subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
     .mode-badge {
       display: inline-block;
       font-size: 0.72rem;
@@ -69,53 +54,141 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-
     .badge-admin { background: #fff7ed; color: #ea580c; }
     .badge-vote  { background: #f0fdf4; color: #16a34a; }
     .badge-resp  { background: #eff6ff; color: #2563eb; }
 
-    /* ── WEEK NAV (admin only) ── */
+    /* ── WEEK NAV ── */
     .week-nav {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 14px 20px;
+      justify-content: space-between;
+      padding: 12px 16px;
       background: var(--white);
       border-bottom: 1px solid var(--border);
+      gap: 10px;
     }
-
+    .week-nav-center {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      justify-content: center;
+    }
     .week-nav span {
       font-weight: 700;
-      font-size: 0.92rem;
-      min-width: 160px;
+      font-size: 0.9rem;
+      min-width: 150px;
       text-align: center;
     }
-
-    .week-nav button {
+    .week-nav button.nav-arrow {
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.15s;
+      flex-shrink: 0;
     }
+    .week-nav button.nav-arrow:hover { background: var(--border); }
 
-    .week-nav button:hover { background: var(--border); }
+    /* ── FAVORITES TOGGLE ── */
+    .btn-fav-toggle {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      color: #92400e;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .btn-fav-toggle:hover { background: #fef08a; }
+    .btn-fav-toggle.active { background: #fcd34d; border-color: #f59e0b; }
 
     /* ── CONTAINER ── */
     .container {
       max-width: 720px;
       margin: 0 auto;
-      padding: 20px 16px;
+      padding: 18px 14px;
     }
 
-    /* ── VOTER NAME AREA ── */
+    /* ── FAVORITES SECTION ── */
+    .favorites-section {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: var(--radius);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .favorites-header {
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #92400e;
+      border-bottom: 1px solid #fde68a;
+    }
+    .favorites-body { padding: 12px 18px; }
+    .favorites-empty {
+      font-size: 0.85rem;
+      color: #a8a29e;
+      font-style: italic;
+      padding: 4px 0;
+    }
+    .fav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #fde68a;
+      flex-wrap: wrap;
+    }
+    .fav-item:last-child { border-bottom: none; }
+    .fav-name {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 100px;
+    }
+    .fav-day-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .fav-day-btn {
+      background: var(--white);
+      border: 1.5px solid #fcd34d;
+      color: #92400e;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .fav-day-btn:hover { background: #fef08a; }
+    .fav-del-btn {
+      background: none;
+      border: none;
+      color: #d1d5db;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 3px 5px;
+      border-radius: 6px;
+      transition: color 0.15s;
+      flex-shrink: 0;
+    }
+    .fav-del-btn:hover { color: #dc2626; }
+
+    /* ── VOTER BANNER ── */
     .voter-banner {
       background: var(--green-light);
       border: 1.5px solid #bbf7d0;
@@ -123,22 +196,9 @@
       padding: 16px 20px;
       margin-bottom: 20px;
     }
-
-    .voter-banner p {
-      font-size: 0.88rem;
-      color: #15803d;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .voter-input-row {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
+    .voter-banner p { font-size: 0.88rem; color: #15803d; margin-bottom: 10px; font-weight: 500; }
     .voter-input-row input {
-      flex: 1;
+      width: 100%;
       padding: 10px 14px;
       border: 1.5px solid #86efac;
       border-radius: var(--radius-sm);
@@ -147,11 +207,7 @@
       font-family: inherit;
       color: var(--text);
     }
-
-    .voter-input-row input:focus {
-      outline: none;
-      border-color: var(--green);
-    }
+    .voter-input-row input:focus { outline: none; border-color: var(--green); }
 
     /* ── RESPONSE BANNER ── */
     .response-banner {
@@ -161,33 +217,10 @@
       padding: 16px 20px;
       margin-bottom: 20px;
     }
-
-    .response-banner h3 {
-      font-size: 1rem;
-      color: #1d4ed8;
-      margin-bottom: 6px;
-    }
-
-    .response-banner p {
-      font-size: 0.85rem;
-      color: #3b82f6;
-    }
-
-    .picks-summary {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .pick-pill {
-      background: #dbeafe;
-      color: #1e40af;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
+    .response-banner h3 { font-size: 1rem; color: #1d4ed8; margin-bottom: 6px; }
+    .response-banner p { font-size: 0.85rem; color: #3b82f6; }
+    .picks-summary { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .pick-pill { background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
 
     /* ── DAY CARDS ── */
     .day-card {
@@ -198,55 +231,54 @@
       overflow: hidden;
       border: 1px solid var(--border);
     }
-
     .day-header {
-      padding: 12px 18px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    .day-emoji { font-size: 1.4rem; }
-
+    .day-emoji { font-size: 1.3rem; }
     .day-header-text { flex: 1; }
+    .day-name { font-weight: 700; font-size: 0.95rem; }
+    .day-date { font-size: 0.75rem; color: var(--text-muted); }
+    .day-body { padding: 0 16px 14px; }
 
-    .day-name {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .day-date {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .day-body { padding: 0 18px 14px; }
-
-    /* Meal list */
+    /* ── MEAL LIST ── */
     .meal-list { list-style: none; margin-bottom: 10px; }
-
     .meal-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 0;
+      gap: 8px;
+      padding: 8px 0;
       border-bottom: 1px solid var(--border);
     }
-
     .meal-item:last-child { border-bottom: none; }
-
-    .meal-name {
-      flex: 1;
-      font-size: 0.92rem;
-      font-weight: 500;
+    .meal-name { flex: 1; font-size: 0.9rem; font-weight: 500; }
+    .meal-by { font-size: 0.72rem; color: var(--text-muted); flex-shrink: 0; }
+    .meal-link {
+      color: var(--green);
+      font-size: 0.85rem;
+      text-decoration: none;
+      flex-shrink: 0;
+      opacity: 0.8;
     }
+    .meal-link:hover { opacity: 1; }
 
-    .meal-by {
-      font-size: 0.72rem;
-      color: var(--text-muted);
+    /* Star button */
+    .star-btn {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 2px 3px;
+      border-radius: 6px;
+      transition: transform 0.15s;
+      flex-shrink: 0;
+      line-height: 1;
     }
+    .star-btn:hover { transform: scale(1.2); }
 
-    /* Vote toggle button */
+    /* Vote button */
     .vote-btn {
       background: none;
       border: 2px solid var(--border);
@@ -261,27 +293,14 @@
       transition: all 0.15s;
       flex-shrink: 0;
     }
+    .vote-btn:hover { border-color: var(--green); background: var(--green-light); }
+    .vote-btn.voted { background: var(--green); border-color: var(--green); color: white; }
 
-    .vote-btn:hover {
-      border-color: var(--green);
-      background: var(--green-light);
-    }
+    /* Picked highlight */
+    .meal-item.picked { background: #eff6ff; border-radius: 8px; padding: 8px; }
+    .meal-item.picked .meal-name { color: #1d4ed8; font-weight: 700; }
 
-    .vote-btn.voted {
-      background: var(--green);
-      border-color: var(--green);
-      color: white;
-    }
-
-    /* Picked highlight in response view */
-    .meal-item.picked .meal-name {
-      color: #1d4ed8;
-      font-weight: 700;
-    }
-
-    .meal-item.picked { background: #eff6ff; border-radius: 8px; padding: 9px 8px; }
-
-    /* Delete button (admin) */
+    /* Delete button */
     .del-btn {
       background: none;
       border: none;
@@ -293,18 +312,18 @@
       transition: color 0.15s;
       flex-shrink: 0;
     }
-
-    .del-btn:hover { color: var(--red); }
+    .del-btn:hover { color: #dc2626; }
 
     /* ── ADD MEAL ROW ── */
     .add-meal-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       margin-top: 6px;
+      flex-wrap: wrap;
     }
-
     .add-meal-row input {
       flex: 1;
+      min-width: 120px;
       padding: 9px 12px;
       border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
@@ -314,48 +333,19 @@
       color: var(--text);
       transition: border-color 0.15s;
     }
-
-    .add-meal-row input:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: var(--white);
-    }
-
+    .add-meal-row input:focus { outline: none; border-color: var(--primary); background: var(--white); }
     .add-meal-row input::placeholder { color: #a8a29e; }
 
     /* ── BUTTONS ── */
     button { cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; }
-
-    .btn {
-      padding: 9px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
+    .btn { padding: 9px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; }
+    .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
-
-    .btn-green {
-      background: var(--green);
-      color: white;
-    }
-
+    .btn-green { background: var(--green); color: white; }
     .btn-green:hover { background: var(--green-hover); }
-
-    .btn-ghost {
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      color: var(--text-muted);
-    }
-
+    .btn-ghost { background: var(--bg); border: 1.5px solid var(--border); color: var(--text-muted); }
     .btn-ghost:hover { background: var(--border); color: var(--text); }
-
-    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .btn-sm { padding: 7px 12px; font-size: 0.8rem; }
 
     .btn-suggest {
       background: #f3f4f6;
@@ -368,156 +358,7 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     .btn-suggest:hover { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
-
-    /* ── ONLINE SUGGESTIONS PANEL ── */
-    .online-panel {
-      margin-top: 8px;
-      background: #fffbeb;
-      border: 1.5px solid #fde68a;
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-    }
-
-    .online-panel-header {
-      font-size: 0.78rem;
-      color: #92400e;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .online-suggestions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .online-pill {
-      background: var(--white);
-      border: 1.5px solid #fcd34d;
-      color: #78350f;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .online-pill:hover {
-      background: #fef08a;
-      border-color: #f59e0b;
-    }
-
-    .loading-spinner {
-      font-size: 0.8rem;
-      color: #92400e;
-    }
-
-    /* ── KÖKET.SE PANEL ── */
-    .koket-panel {
-      margin-top: 8px;
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-      border-radius: var(--radius-sm);
-      padding: 12px;
-    }
-
-    .koket-header {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #15803d;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .koket-close-btn {
-      background: none;
-      border: none;
-      color: #6b7280;
-      font-size: 1rem;
-      cursor: pointer;
-      padding: 0 2px;
-    }
-
-    .koket-search-row, .koket-url-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .koket-search-row input, .koket-url-row input {
-      flex: 1;
-      padding: 8px 10px;
-      border: 1.5px solid #86efac;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      background: white;
-      font-family: inherit;
-      color: var(--text);
-      min-width: 0;
-    }
-
-    .koket-search-row input:focus, .koket-url-row input:focus {
-      outline: none;
-      border-color: var(--green);
-    }
-
-    .koket-divider {
-      font-size: 0.72rem;
-      color: #a3e4a3;
-      text-align: center;
-      margin: 2px 0 8px;
-    }
-
-    .btn-koket {
-      background: #15803d;
-      color: white;
-      border-radius: 8px;
-      font-family: inherit;
-      padding: 8px 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .btn-koket:hover { background: #166534; }
-
-    .koket-no-results { font-size: 0.8rem; color: #6b7280; padding: 4px 0; }
-
-    .koket-preview {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      background: white;
-      border-radius: 8px;
-      border: 1.5px solid #86efac;
-    }
-
-    .koket-preview-name { font-weight: 600; font-size: 0.9rem; flex: 1; }
-
-    .koket-pill {
-      background: white !important;
-      border-color: #86efac !important;
-      color: #15803d !important;
-    }
-
-    .koket-pill:hover { background: #dcfce7 !important; border-color: #4ade80 !important; }
-
-    .meal-link {
-      color: var(--green);
-      font-size: 0.85rem;
-      text-decoration: none;
-      flex-shrink: 0;
-      opacity: 0.8;
-    }
-
-    .meal-link:hover { opacity: 1; }
 
     .btn-koket-trigger {
       background: #dcfce7;
@@ -530,10 +371,92 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     .btn-koket-trigger:hover { background: #bbf7d0; }
 
-    /* ── FLOATING ACTION BUTTONS ── */
+    /* ── SWEDISH SUGGESTIONS PANEL ── */
+    .online-panel {
+      margin-top: 8px;
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .online-panel-header { font-size: 0.78rem; color: #92400e; font-weight: 600; margin-bottom: 8px; }
+    .online-suggestions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .online-pill {
+      background: var(--white);
+      border: 1.5px solid #fcd34d;
+      color: #78350f;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .online-pill:hover { background: #fef08a; border-color: #f59e0b; }
+
+    /* ── KÖKET.SE PANEL ── */
+    .koket-panel {
+      margin-top: 8px;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+    .koket-header {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .koket-close-btn { background: none; border: none; color: #6b7280; font-size: 1rem; cursor: pointer; padding: 0 2px; }
+    .koket-url-row { display: flex; gap: 8px; }
+    .koket-url-row input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: white;
+      font-family: inherit;
+      color: var(--text);
+      min-width: 0;
+    }
+    .koket-url-row input:focus { outline: none; border-color: var(--green); }
+    .btn-koket {
+      background: #15803d;
+      color: white;
+      border-radius: 8px;
+      font-family: inherit;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-koket:hover { background: #166534; }
+    .koket-hint { font-size: 0.75rem; color: #6b7280; margin-top: 6px; }
+    .koket-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: white;
+      border-radius: 8px;
+      border: 1.5px solid #86efac;
+      margin-top: 8px;
+    }
+    .koket-preview-name { font-weight: 600; font-size: 0.9rem; flex: 1; }
+    .koket-error { font-size: 0.8rem; color: #6b7280; margin-top: 6px; }
+
+    /* ── EMPTY STATE ── */
+    .empty-meals { font-size: 0.82rem; color: #a8a29e; padding: 6px 0 4px; font-style: italic; }
+
+    /* ── FAB ── */
     .fab-area {
       position: fixed;
       bottom: 24px;
@@ -543,11 +466,10 @@
       gap: 12px;
       z-index: 100;
     }
-
     .fab {
-      padding: 14px 24px;
+      padding: 14px 22px;
       border-radius: 50px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       display: flex;
@@ -558,21 +480,10 @@
       transition: all 0.15s;
       white-space: nowrap;
     }
-
     .fab:active { transform: scale(0.97); }
-
-    .fab-share {
-      background: var(--primary);
-      color: white;
-    }
-
+    .fab-share { background: var(--primary); color: white; }
     .fab-share:hover { background: var(--primary-hover); }
-
-    .fab-send {
-      background: var(--green);
-      color: white;
-    }
-
+    .fab-send { background: var(--green); color: white; }
     .fab-send:hover { background: var(--green-hover); }
 
     /* ── MODAL ── */
@@ -587,36 +498,21 @@
       padding: 20px;
       backdrop-filter: blur(2px);
     }
-
     .modal-overlay.hidden { display: none; }
-
     .modal {
       background: var(--white);
       border-radius: var(--radius) var(--radius) 0 0;
-      padding: 28px 24px 36px;
+      padding: 26px 22px 34px;
       width: 100%;
       max-width: 500px;
       animation: slideUp 0.25s ease;
     }
-
     @keyframes slideUp {
       from { transform: translateY(40px); opacity: 0; }
       to   { transform: translateY(0);    opacity: 1; }
     }
-
-    .modal h2 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .modal p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
+    .modal h2 { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+    .modal p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
     .share-url-box {
       background: var(--bg);
       border: 1.5px solid var(--border);
@@ -629,12 +525,7 @@
       min-height: 50px;
       line-height: 1.5;
     }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
+    .modal-actions { display: flex; gap: 10px; }
     .modal-actions .btn { flex: 1; text-align: center; }
 
     /* ── TOAST ── */
@@ -655,32 +546,12 @@
       transition: opacity 0.25s, transform 0.25s;
       white-space: nowrap;
     }
-
-    #toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ── EMPTY STATE ── */
-    .empty-meals {
-      font-size: 0.82rem;
-      color: #a8a29e;
-      padding: 6px 0 4px;
-      font-style: italic;
-    }
-
-    /* ── UTILS ── */
-    .no-meals-note {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     @media (max-width: 480px) {
-      .fab { padding: 12px 18px; font-size: 0.88rem; }
-      .container { padding: 14px 12px; }
-      .modal { padding: 22px 18px 30px; }
+      .fab { padding: 12px 16px; font-size: 0.85rem; }
+      .container { padding: 12px 10px; }
+      .fav-day-btn { padding: 4px 6px; font-size: 0.68rem; }
     }
   </style>
 </head>
@@ -695,19 +566,21 @@
   </header>
 
   <div class="week-nav">
-    <button id="prev-week-btn" title="Föregående vecka">‹</button>
-    <span id="week-label">Laddar…</span>
-    <button id="next-week-btn" title="Nästa vecka">›</button>
+    <div class="week-nav-center">
+      <button class="nav-arrow" id="prev-week-btn" title="Föregående vecka">‹</button>
+      <span id="week-label">Laddar…</span>
+      <button class="nav-arrow" id="next-week-btn" title="Nästa vecka">›</button>
+    </div>
+    <button class="btn-fav-toggle" id="fav-toggle-btn">⭐ Favoriter</button>
   </div>
 
   <div class="container">
+    <div class="favorites-section" id="favorites-section" style="display:none"></div>
     <div id="admin-days"></div>
   </div>
 
   <div class="fab-area">
-    <button class="fab fab-share" id="share-btn">
-      📤 Dela med barnen
-    </button>
+    <button class="fab fab-share" id="share-btn">📤 Dela med barnen</button>
   </div>
 </div>
 
@@ -718,7 +591,6 @@
     <div class="subtitle" id="vote-week-label"></div>
     <span class="mode-badge badge-vote">Röstningsläge</span>
   </header>
-
   <div class="container">
     <div class="voter-banner">
       <p>Tryck på 👍 för det du vill äta, och lägg gärna till egna förslag!</p>
@@ -728,11 +600,8 @@
     </div>
     <div id="vote-days"></div>
   </div>
-
   <div class="fab-area">
-    <button class="fab fab-send" id="send-vote-btn">
-      💌 Skicka mina val
-    </button>
+    <button class="fab fab-send" id="send-vote-btn">💌 Skicka mina val</button>
   </div>
 </div>
 
@@ -743,7 +612,6 @@
     <div class="subtitle" id="resp-week-label"></div>
     <span class="mode-badge badge-resp">Svar från barn</span>
   </header>
-
   <div class="container">
     <div class="response-banner">
       <h3 id="resp-voter-name"></h3>
@@ -752,11 +620,8 @@
     </div>
     <div id="resp-days"></div>
   </div>
-
   <div class="fab-area">
-    <button class="fab fab-share" id="back-to-admin-btn" style="background:#6b7280;">
-      ← Tillbaka till planering
-    </button>
+    <button class="fab" id="back-to-admin-btn" style="background:#6b7280;color:white;">← Tillbaka</button>
   </div>
 </div>
 
@@ -764,9 +629,10 @@
 <div class="modal-overlay hidden" id="share-modal">
   <div class="modal">
     <h2>📤 Dela med barnen</h2>
-    <p>Kopiera länken nedan och skicka den till barnen via t.ex. WhatsApp eller SMS. De kan sedan rösta och lägga till egna förslag.</p>
+    <p>Förkorta länken för att göra den kortare att skicka, kopiera sedan och skicka via WhatsApp eller SMS.</p>
     <div class="share-url-box" id="share-url-text"></div>
-    <div class="modal-actions">
+    <div class="modal-actions" style="flex-wrap:wrap;gap:8px;">
+      <button class="btn btn-ghost" id="shorten-share-btn" style="flex:none;">🔗 Förkorta länk</button>
       <button class="btn btn-primary" id="copy-share-btn">📋 Kopiera länk</button>
       <button class="btn btn-ghost" id="close-share-modal">Stäng</button>
     </div>
@@ -777,9 +643,10 @@
 <div class="modal-overlay hidden" id="send-modal">
   <div class="modal">
     <h2>💌 Skicka mina val</h2>
-    <p>Kopiera länken och skicka till Papa/Mamma! De ser exakt vad du röstade på.</p>
+    <p>Förkorta länken och skicka till Papa/Mamma! De ser exakt vad du röstade på.</p>
     <div class="share-url-box" id="send-url-text"></div>
-    <div class="modal-actions">
+    <div class="modal-actions" style="flex-wrap:wrap;gap:8px;">
+      <button class="btn btn-ghost" id="shorten-send-btn" style="flex:none;">🔗 Förkorta länk</button>
       <button class="btn btn-green" id="copy-send-btn">📋 Kopiera länk</button>
       <button class="btn btn-ghost" id="close-send-modal">Stäng</button>
     </div>
@@ -790,8 +657,10 @@
 
 <script>
 // ─── CONSTANTS ────────────────────────────────────────────────────
-const STORAGE_KEY = 'matlista_v1';
-const MEALDB_URL  = 'https://www.themealdb.com/api/json/v1/1/random.php';
+const STORAGE_KEY  = 'matlista_v1';
+const FAVS_KEY     = 'matlista_favs_v1';
+const ALLORIGINS   = 'https://api.allorigins.win/get?url=';
+const KOKET_BASE   = 'https://www.koket.se';
 
 const DAYS_META = [
   { name: 'Måndag',  emoji: '☀️',  hue: '#fff7ed' },
@@ -803,34 +672,87 @@ const DAYS_META = [
   { name: 'Söndag',  emoji: '❤️',  hue: '#fff1f2' },
 ];
 
+const DAY_SHORT = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+
+const SWEDISH_MEALS = [
+  'Köttbullar med potatismos och lingon',
+  'Tacos',
+  'Pannkakor med sylt och grädde',
+  'Pasta Bolognese',
+  'Kycklinggryta med ris',
+  'Laxpasta med gräddsås',
+  'Pytt i panna',
+  'Korv Stroganoff',
+  'Ärtsoppa med pannkakor',
+  'Fläskfilé med gräddsås',
+  'Lasagne',
+  'Hemgjord pizza',
+  'Hamburgare',
+  'Fiskpinnar med potatismos',
+  'Spaghetti Carbonara',
+  'Kyckling i ugn med rotfrukter',
+  'Falukorv med stuvad makaroni',
+  'Ugnspannkaka med bacon',
+  'Pannbiff med lök och potatis',
+  'Biff med bearnaisesås',
+  'Janssons frestelse',
+  'Chili con carne',
+  'Kycklingwraps',
+  'Stekt strömming med potatismos',
+  'Wallenbergare med gröna ärtor',
+  'Kalops med inlagda rödbetor',
+  'Potatisgratäng med fläsk',
+  'Omelett med bacon och ost',
+  'Lammkotletter med rosmarin',
+  'Fiskgratäng med makaroner',
+  'Halloumi med bulgursallad',
+  'Flygande Jakob',
+  'Raggmunk med lingon och fläsk',
+  'Revbensspjäll med coleslaw',
+  'Pitabröd med falafel och hummus',
+  'Grillad lax med dillsås',
+  'Kroppkakor',
+  'Pulled pork i ugn',
+  'Moussaka',
+  'Paj med skinka och ost',
+  'Potatissoppa med bröd',
+  'Lammgryta med couscous',
+  'Räkpasta',
+  'Fiskbullar i curry',
+  'Kyckling Tikka Masala',
+  'Toast Skagen',
+  'Blodpudding med lingon',
+  'Makaroner med köttfärssås',
+  'Rotfruktsgryta',
+  'Nudelsoppa med kyckling',
+];
+
 // ─── STATE ────────────────────────────────────────────────────────
-let mode = 'admin';   // 'admin' | 'vote' | 'response'
-let plan = null;      // the week plan object
-let myPicks = {};     // dayIdx → Set of meal IDs (vote mode)
-let mySuggestions = {};// dayIdx → [{ id, name }] (vote mode)
-let responseData = null; // full parsed response object
+let mode         = 'admin';
+let plan         = null;
+let favorites    = [];
+let myPicks      = {};
+let mySuggestions = {};
+let responseData = null;
+let favsOpen     = false;
 
 // ─── ENCODING ─────────────────────────────────────────────────────
 function encode(obj) {
-  try {
-    const str = JSON.stringify(obj);
-    return btoa(unescape(encodeURIComponent(str)));
-  } catch { return ''; }
+  try { return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))); }
+  catch { return ''; }
 }
-
 function decode(str) {
-  try {
-    return JSON.parse(decodeURIComponent(escape(atob(str))));
-  } catch { return null; }
+  try { return JSON.parse(decodeURIComponent(escape(atob(str)))); }
+  catch { return null; }
 }
 
-// ─── DATE HELPERS ─────────────────────────────────────────────────
+// ─── DATE HELPERS (local time — avoids UTC off-by-one) ────────────
 function getMonday(d) {
   const date = new Date(d);
   const day  = date.getDay();
   const diff = day === 0 ? -6 : 1 - day;
   date.setDate(date.getDate() + diff);
-  date.setHours(0, 0, 0, 0);
+  date.setHours(12, 0, 0, 0); // noon avoids DST edge cases
   return date;
 }
 
@@ -841,24 +763,28 @@ function addDays(d, n) {
 }
 
 function isoDate(d) {
-  return d.toISOString().slice(0, 10);
+  // Use local time methods — NOT toISOString() which gives UTC
+  const y  = d.getFullYear();
+  const m  = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
 }
 
 function svDate(str) {
-  const [y, m, d] = str.split('-');
+  const [, m, d] = str.split('-');
   const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
   return `${parseInt(d)} ${months[parseInt(m) - 1]}`;
 }
 
 function weekNumber(d) {
-  const date  = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  const day   = date.getUTCDay() || 7;
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const day  = date.getUTCDay() || 7;
   date.setUTCDate(date.getUTCDate() + 4 - day);
-  const year  = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const year = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
   return Math.ceil((((date - year) / 86400000) + 1) / 7);
 }
 
-// ─── PLAN FACTORY ─────────────────────────────────────────────────
+// ─── PLAN & FAVORITES PERSISTENCE ─────────────────────────────────
 function makePlan(mondayDate) {
   return {
     weekStart: isoDate(mondayDate),
@@ -873,45 +799,22 @@ function makePlan(mondayDate) {
   };
 }
 
-function uid() {
-  return Math.random().toString(36).slice(2, 9);
-}
+function uid() { return Math.random().toString(36).slice(2, 9); }
 
-// ─── PERSIST (admin) ──────────────────────────────────────────────
-function savePlan() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
-}
-
-function loadPlan() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
-  return null;
-}
+function savePlan()  { localStorage.setItem(STORAGE_KEY, JSON.stringify(plan)); }
+function loadPlan()  { try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; } catch { return null; } }
+function saveFavs()  { localStorage.setItem(FAVS_KEY, JSON.stringify(favorites)); }
+function loadFavs()  { try { const r = localStorage.getItem(FAVS_KEY); return r ? JSON.parse(r) : []; } catch { return []; } }
 
 // ─── ROUTING ──────────────────────────────────────────────────────
 function init() {
+  favorites = loadFavs();
   const hash = location.hash.slice(1);
   if (hash) {
     const data = decode(hash);
-    if (data && data.voter) {
-      // Response from a child
-      responseData = data;
-      mode = 'response';
-      showResponseView();
-      return;
-    }
-    if (data && data.weekStart) {
-      // Vote mode (shared plan link)
-      plan = data;
-      mode = 'vote';
-      showVoteView();
-      return;
-    }
+    if (data && data.voter) { responseData = data; mode = 'response'; showResponseView(); return; }
+    if (data && data.weekStart) { plan = data; mode = 'vote'; showVoteView(); return; }
   }
-
-  // Admin mode
   mode = 'admin';
   plan = loadPlan();
   if (!plan) plan = makePlan(getMonday(new Date()));
@@ -920,8 +823,8 @@ function init() {
 
 // ─── ADMIN VIEW ───────────────────────────────────────────────────
 function showAdminView() {
-  document.getElementById('admin-view').style.display = '';
-  document.getElementById('vote-view').style.display  = 'none';
+  document.getElementById('admin-view').style.display    = '';
+  document.getElementById('vote-view').style.display     = 'none';
   document.getElementById('response-view').style.display = 'none';
   renderAdmin();
 }
@@ -933,6 +836,8 @@ function renderAdmin() {
   document.getElementById('week-label').textContent =
     `Vecka ${wn} · ${svDate(plan.weekStart)}–${svDate(isoDate(sunday))}`;
 
+  if (favsOpen) renderFavorites();
+
   const container = document.getElementById('admin-days');
   container.innerHTML = '';
 
@@ -940,7 +845,6 @@ function renderAdmin() {
     const card = document.createElement('div');
     card.className = 'day-card';
 
-    // Header
     const header = document.createElement('div');
     header.className = 'day-header';
     header.style.background = day.hue;
@@ -953,22 +857,23 @@ function renderAdmin() {
     `;
     card.appendChild(header);
 
-    // Body
     const body = document.createElement('div');
     body.className = 'day-body';
 
-    // Meal list
     const list = document.createElement('ul');
     list.className = 'meal-list';
     if (day.meals.length === 0) {
       list.innerHTML = '<li class="empty-meals">Inga förslag ännu…</li>';
     } else {
       day.meals.forEach((meal, mi) => {
+        const isFav = favorites.some(f => f.name === meal.name);
         const li = document.createElement('li');
         li.className = 'meal-item';
         li.innerHTML = `
+          <button class="star-btn" onclick="toggleFav('${escJs(meal.name)}','${escJs(meal.by||'')}','${escJs(meal.link||'')}',this)"
+            title="${isFav ? 'Ta bort från favoriter' : 'Spara som favorit'}">${isFav ? '⭐' : '☆'}</button>
           <span class="meal-name">${escHtml(meal.name)}</span>
-          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Öppna recept på köket.se">↗️</a>` : ''}
+          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Öppna recept">↗️</a>` : ''}
           <span class="meal-by">${escHtml(meal.by || '')}</span>
           <button class="del-btn" title="Ta bort" onclick="deleteMeal(${di},${mi})">✕</button>
         `;
@@ -977,28 +882,24 @@ function renderAdmin() {
     }
     body.appendChild(list);
 
-    // Add meal row
     const addRow = document.createElement('div');
     addRow.className = 'add-meal-row';
     addRow.innerHTML = `
       <input type="text" placeholder="Lägg till rätt…" id="meal-input-${di}" maxlength="60" />
       <button class="btn btn-primary btn-sm" onclick="addMeal(${di})">+ Lägg till</button>
-      <button class="btn-suggest" onclick="fetchSuggestions(${di})" title="Slumpa rätt från nätet">🌐</button>
-      <button class="btn-koket-trigger" onclick="toggleKoketPanel(${di})" title="Sök och hämta från köket.se">köket.se</button>
+      <button class="btn-suggest" onclick="showSwedishSuggestions(${di})" title="Förslag på svenska rätter">🇸🇪</button>
+      <button class="btn-koket-trigger" onclick="toggleKoketPanel(${di})" title="Hämta från köket.se">köket.se</button>
     `;
     body.appendChild(addRow);
 
-    // Suggestions panel placeholder
     const sugPanel = document.createElement('div');
     sugPanel.id = `sug-panel-${di}`;
     body.appendChild(sugPanel);
 
-    // Köket.se panel placeholder
     const koketPanel = document.createElement('div');
     koketPanel.id = `koket-panel-${di}`;
     body.appendChild(koketPanel);
 
-    // Enter key on input
     addRow.querySelector('input').addEventListener('keydown', e => {
       if (e.key === 'Enter') addMeal(di);
     });
@@ -1012,7 +913,7 @@ function addMeal(di) {
   const input = document.getElementById(`meal-input-${di}`);
   const name  = input.value.trim();
   if (!name) return;
-  plan.days[di].meals.push({ id: uid(), name, by: 'Papa' });
+  plan.days[di].meals.push({ id: uid(), name, by: '' });
   savePlan();
   input.value = '';
   renderAdmin();
@@ -1029,9 +930,8 @@ function deleteMeal(di, mi) {
 document.getElementById('prev-week-btn').addEventListener('click', () => {
   const mon = getMonday(new Date(plan.weekStart + 'T12:00:00'));
   mon.setDate(mon.getDate() - 7);
-  plan = makePlan(mon);
-  const stored = loadPlan();
-  if (stored && stored.weekStart === isoDate(mon)) plan = stored;
+  const newPlan = makePlan(mon);
+  plan = newPlan;
   savePlan();
   renderAdmin();
 });
@@ -1039,9 +939,8 @@ document.getElementById('prev-week-btn').addEventListener('click', () => {
 document.getElementById('next-week-btn').addEventListener('click', () => {
   const mon = getMonday(new Date(plan.weekStart + 'T12:00:00'));
   mon.setDate(mon.getDate() + 7);
-  plan = makePlan(mon);
-  const stored = loadPlan();
-  if (stored && stored.weekStart === isoDate(mon)) plan = stored;
+  const newPlan = makePlan(mon);
+  plan = newPlan;
   savePlan();
   renderAdmin();
 });
@@ -1052,34 +951,209 @@ document.getElementById('share-btn').addEventListener('click', () => {
   document.getElementById('share-url-text').textContent = url;
   document.getElementById('share-modal').classList.remove('hidden');
 });
-
 document.getElementById('copy-share-btn').addEventListener('click', () => {
-  const url = document.getElementById('share-url-text').textContent;
-  copyToClipboard(url, 'Länk kopierad! 🎉');
+  copyToClipboard(document.getElementById('share-url-text').textContent, 'Länk kopierad! 🎉');
 });
-
 document.getElementById('close-share-modal').addEventListener('click', () => {
   document.getElementById('share-modal').classList.add('hidden');
 });
+document.getElementById('shorten-share-btn').addEventListener('click', () =>
+  shortenUrl('share-url-text', 'shorten-share-btn')
+);
+
+// ─── FAVORITES ────────────────────────────────────────────────────
+document.getElementById('fav-toggle-btn').addEventListener('click', () => {
+  favsOpen = !favsOpen;
+  document.getElementById('fav-toggle-btn').classList.toggle('active', favsOpen);
+  const sec = document.getElementById('favorites-section');
+  if (favsOpen) { sec.style.display = ''; renderFavorites(); }
+  else           { sec.style.display = 'none'; }
+});
+
+function renderFavorites() {
+  const sec = document.getElementById('favorites-section');
+  sec.innerHTML = `
+    <div class="favorites-header">⭐ Mina favoriter</div>
+    <div class="favorites-body" id="favs-body"></div>
+  `;
+  const body = document.getElementById('favs-body');
+  if (favorites.length === 0) {
+    body.innerHTML = '<div class="favorites-empty">Inga favoriter än — tryck på ☆ bredvid en rätt för att spara den.</div>';
+    return;
+  }
+  favorites.forEach((fav, fi) => {
+    const item = document.createElement('div');
+    item.className = 'fav-item';
+    const dayBtns = plan.days.map((day, di) =>
+      `<button class="fav-day-btn" onclick="addFavToDay(${fi},${di})" title="Lägg till på ${day.name}">${DAY_SHORT[di]}</button>`
+    ).join('');
+    item.innerHTML = `
+      <span class="fav-name">${escHtml(fav.name)}${fav.link ? ` <a class="meal-link" href="${escHtml(fav.link)}" target="_blank">↗️</a>` : ''}</span>
+      <div class="fav-day-btns">${dayBtns}</div>
+      <button class="fav-del-btn" onclick="removeFav(${fi})" title="Ta bort favorit">✕</button>
+    `;
+    body.appendChild(item);
+  });
+}
+
+function toggleFav(name, by, link, starBtn) {
+  const idx = favorites.findIndex(f => f.name === name);
+  if (idx >= 0) {
+    favorites.splice(idx, 1);
+    starBtn.textContent = '☆';
+    starBtn.title = 'Spara som favorit';
+    showToast('Borttagen från favoriter');
+  } else {
+    favorites.push({ id: uid(), name, by, link: link || '' });
+    starBtn.textContent = '⭐';
+    starBtn.title = 'Ta bort från favoriter';
+    showToast(`${name} sparad som favorit ⭐`);
+  }
+  saveFavs();
+  if (favsOpen) renderFavorites();
+}
+
+function removeFav(fi) {
+  favorites.splice(fi, 1);
+  saveFavs();
+  renderFavorites();
+  renderAdmin();
+}
+
+function addFavToDay(fi, di) {
+  const fav = favorites[fi];
+  if (!fav) return;
+  plan.days[di].meals.push({ id: uid(), name: fav.name, by: fav.by || '', link: fav.link || '' });
+  savePlan();
+  renderAdmin();
+  showToast(`${fav.name} tillagd på ${plan.days[di].name} 🍽️`);
+}
+
+// ─── SWEDISH SUGGESTIONS ──────────────────────────────────────────
+function showSwedishSuggestions(di) {
+  const panel = document.getElementById(`sug-panel-${di}`);
+  if (panel.innerHTML !== '') { panel.innerHTML = ''; return; }
+  document.getElementById(`koket-panel-${di}`).innerHTML = '';
+
+  // Pick 5 random suggestions not already in this day
+  const used   = new Set(plan.days[di].meals.map(m => m.name));
+  const pool   = SWEDISH_MEALS.filter(m => !used.has(m));
+  const picks  = pool.sort(() => Math.random() - 0.5).slice(0, 5);
+
+  panel.innerHTML = `
+    <div class="online-panel">
+      <div class="online-panel-header">🇸🇪 Förslag — klicka för att lägga till:</div>
+      <div class="online-suggestions" id="sug-pills-${di}"></div>
+    </div>
+  `;
+  const pillsEl = document.getElementById(`sug-pills-${di}`);
+  picks.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'online-pill';
+    btn.textContent = name;
+    btn.addEventListener('click', () => {
+      plan.days[di].meals.push({ id: uid(), name, by: '' });
+      savePlan();
+      panel.innerHTML = '';
+      renderAdmin();
+    });
+    pillsEl.appendChild(btn);
+  });
+  const more = document.createElement('button');
+  more.className = 'online-pill';
+  more.textContent = '🔄 Fler förslag';
+  more.style.background = '#fef9c3';
+  more.addEventListener('click', () => { panel.innerHTML = ''; showSwedishSuggestions(di); });
+  pillsEl.appendChild(more);
+}
+
+// ─── KÖKET.SE (URL PASTE) ─────────────────────────────────────────
+function toggleKoketPanel(di) {
+  const panel = document.getElementById(`koket-panel-${di}`);
+  if (panel.innerHTML !== '') { panel.innerHTML = ''; return; }
+  document.getElementById(`sug-panel-${di}`).innerHTML = '';
+
+  panel.innerHTML = `
+    <div class="koket-panel">
+      <div class="koket-header">
+        🇸🇪 Hämta från köket.se
+        <button class="koket-close-btn" onclick="toggleKoketPanel(${di})">✕</button>
+      </div>
+      <div class="koket-url-row">
+        <input type="url" id="koket-url-${di}" placeholder="Klistra in länk från köket.se…" maxlength="300" />
+        <button class="btn-koket" onclick="runKoketUrl(${di})">Hämta</button>
+      </div>
+      <div class="koket-hint">Hitta ett recept på köket.se, kopiera länken och klistra in här.</div>
+      <div id="koket-result-${di}"></div>
+    </div>
+  `;
+  document.getElementById(`koket-url-${di}`).addEventListener('keydown', e => {
+    if (e.key === 'Enter') runKoketUrl(di);
+  });
+  document.getElementById(`koket-url-${di}`).focus();
+}
+
+function slugToName(slug) {
+  return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+async function runKoketUrl(di) {
+  const urlVal    = document.getElementById(`koket-url-${di}`).value.trim();
+  const resultEl  = document.getElementById(`koket-result-${di}`);
+
+  let parsed = null;
+  try {
+    const u = new URL(urlVal);
+    if (u.hostname.includes('koket.se')) {
+      const parts = u.pathname.split('/').filter(Boolean);
+      if (parts.length > 0) parsed = { slug: parts[0], name: slugToName(parts[0]), url: urlVal };
+    }
+  } catch {}
+
+  if (!parsed) {
+    resultEl.innerHTML = '<div class="koket-error">⚠️ Verkar inte vara en giltig köket.se-länk.</div>';
+    return;
+  }
+
+  resultEl.innerHTML = '<div class="koket-error" style="color:#15803d">⏳ Hämtar receptnamn…</div>';
+  let name = parsed.name;
+  try {
+    const res          = await fetch(`${ALLORIGINS}${encodeURIComponent(urlVal)}`);
+    const { contents } = await res.json();
+    const doc          = new DOMParser().parseFromString(contents, 'text/html');
+    const og           = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+    const h1t          = doc.querySelector('h1')?.textContent?.trim();
+    const fetched      = (og || h1t || '').replace(/\s*[|\-–].*$/, '').trim();
+    if (fetched.length > 2) name = fetched;
+  } catch {}
+
+  resultEl.innerHTML = `
+    <div class="koket-preview">
+      <div class="koket-preview-name">🍴 ${escHtml(name)}</div>
+      <button class="btn btn-green btn-sm" id="koket-add-${di}">+ Lägg till</button>
+    </div>
+  `;
+  document.getElementById(`koket-add-${di}`).addEventListener('click', () => {
+    plan.days[di].meals.push({ id: uid(), name, by: 'köket.se', link: urlVal });
+    savePlan();
+    document.getElementById(`koket-panel-${di}`).innerHTML = '';
+    renderAdmin();
+    showToast(`${name} tillagd! 🍽️`);
+  });
+}
 
 // ─── VOTE VIEW ────────────────────────────────────────────────────
 function showVoteView() {
-  document.getElementById('admin-view').style.display  = 'none';
-  document.getElementById('vote-view').style.display   = '';
+  document.getElementById('admin-view').style.display    = 'none';
+  document.getElementById('vote-view').style.display     = '';
   document.getElementById('response-view').style.display = 'none';
 
-  // Init picks and suggestions
-  plan.days.forEach((_, i) => {
-    myPicks[i]       = new Set();
-    mySuggestions[i] = [];
-  });
+  plan.days.forEach((_, i) => { myPicks[i] = new Set(); mySuggestions[i] = []; });
 
   const monday = new Date(plan.weekStart + 'T12:00:00');
-  const sunday = addDays(monday, 6);
   const wn     = weekNumber(monday);
   document.getElementById('vote-week-label').textContent =
-    `Vecka ${wn} · ${svDate(plan.weekStart)}–${svDate(isoDate(sunday))}`;
-
+    `Vecka ${wn} · ${svDate(plan.weekStart)}–${svDate(isoDate(addDays(monday, 6)))}`;
   renderVote();
 }
 
@@ -1108,11 +1182,7 @@ function renderVote() {
 
     const list = document.createElement('ul');
     list.className = 'meal-list';
-
-    const allMeals = [
-      ...day.meals,
-      ...(mySuggestions[di] || []),
-    ];
+    const allMeals = [...day.meals, ...(mySuggestions[di] || [])];
 
     if (allMeals.length === 0) {
       list.innerHTML = '<li class="empty-meals">Inga förslag — lägg till ett eget!</li>';
@@ -1122,19 +1192,16 @@ function renderVote() {
         const li = document.createElement('li');
         li.className = 'meal-item';
         li.innerHTML = `
-          <button class="vote-btn ${voted ? 'voted' : ''}" onclick="togglePick(${di},'${meal.id}')" title="${voted ? 'Avrösta' : 'Rösta'}">
-            ${voted ? '✓' : '👍'}
-          </button>
+          <button class="vote-btn ${voted ? 'voted' : ''}" onclick="togglePick(${di},'${meal.id}')">${voted ? '✓' : '👍'}</button>
           <span class="meal-name">${escHtml(meal.name)}</span>
-          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Öppna recept">↗️</a>` : ''}
-          <span class="meal-by">${escHtml(meal.by === 'Papa' ? '(Papa)' : meal.by ? `(${meal.by})` : '')}</span>
+          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Se recept">↗️</a>` : ''}
+          <span class="meal-by">${escHtml(meal.by === 'köket.se' ? '' : meal.by ? `(${meal.by})` : '')}</span>
         `;
         list.appendChild(li);
       });
     }
     body.appendChild(list);
 
-    // Add own suggestion
     const addRow = document.createElement('div');
     addRow.className = 'add-meal-row';
     addRow.innerHTML = `
@@ -1152,109 +1219,87 @@ function renderVote() {
 }
 
 function togglePick(di, mealId) {
-  if (myPicks[di].has(mealId)) {
-    myPicks[di].delete(mealId);
-  } else {
-    myPicks[di].add(mealId);
-  }
+  myPicks[di].has(mealId) ? myPicks[di].delete(mealId) : myPicks[di].add(mealId);
   renderVote();
 }
 
 function addVoteSuggestion(di) {
-  const input = document.getElementById(`vote-input-${di}`);
-  const name  = input.value.trim();
+  const input     = document.getElementById(`vote-input-${di}`);
+  const name      = input.value.trim();
   if (!name) return;
   const voterName = document.getElementById('voter-name-input').value.trim() || 'Barn';
-  const meal = { id: uid(), name, by: voterName };
+  const meal      = { id: uid(), name, by: voterName };
   mySuggestions[di].push(meal);
   myPicks[di].add(meal.id);
   input.value = '';
   renderVote();
 }
 
-// Send votes
 document.getElementById('send-vote-btn').addEventListener('click', () => {
   const voterName = document.getElementById('voter-name-input').value.trim() || 'Barn';
-
-  // Build picks array (all meal IDs selected)
-  const allPicks = [];
-  Object.keys(myPicks).forEach(di => {
-    myPicks[di].forEach(id => allPicks.push(id));
-  });
-
-  // Build combined plan with suggestions included
-  const planWithSuggestions = {
+  const allPicks  = Object.values(myPicks).flatMap(s => [...s]);
+  const merged    = {
     ...plan,
     days: plan.days.map((day, di) => ({
       ...day,
-      meals: [
-        ...day.meals,
-        ...(mySuggestions[di] || []),
-      ],
+      meals: [...day.meals, ...(mySuggestions[di] || [])],
     })),
     voter: voterName,
     picks: allPicks,
   };
-
-  const url = location.origin + location.pathname + '#' + encode(planWithSuggestions);
+  const url = location.origin + location.pathname + '#' + encode(merged);
   document.getElementById('send-url-text').textContent = url;
   document.getElementById('send-modal').classList.remove('hidden');
 });
 
 document.getElementById('copy-send-btn').addEventListener('click', () => {
-  const url = document.getElementById('send-url-text').textContent;
-  copyToClipboard(url, `Tack ${document.getElementById('voter-name-input').value.trim() || ''}! Länk kopierad 💌`);
+  const name = document.getElementById('voter-name-input').value.trim();
+  copyToClipboard(document.getElementById('send-url-text').textContent, `${name ? name + ': l' : 'L'}änk kopierad 💌`);
 });
-
 document.getElementById('close-send-modal').addEventListener('click', () => {
   document.getElementById('send-modal').classList.add('hidden');
 });
+document.getElementById('shorten-send-btn').addEventListener('click', () =>
+  shortenUrl('send-url-text', 'shorten-send-btn')
+);
 
 // ─── RESPONSE VIEW ────────────────────────────────────────────────
 function showResponseView() {
-  document.getElementById('admin-view').style.display   = 'none';
-  document.getElementById('vote-view').style.display    = 'none';
+  document.getElementById('admin-view').style.display    = 'none';
+  document.getElementById('vote-view').style.display     = 'none';
   document.getElementById('response-view').style.display = '';
 
-  const data   = responseData;
-  const picksSet = new Set(data.picks || []);
-  const voter  = data.voter || 'Barn';
+  const data      = responseData;
+  const picksSet  = new Set(data.picks || []);
+  const voter     = data.voter || 'Barn';
+  const monday    = new Date(data.weekStart + 'T12:00:00');
+  const wn        = weekNumber(monday);
 
-  const monday = new Date(data.weekStart + 'T12:00:00');
-  const sunday = addDays(monday, 6);
-  const wn     = weekNumber(monday);
   document.getElementById('resp-week-label').textContent =
-    `Vecka ${wn} · ${svDate(data.weekStart)}–${svDate(isoDate(sunday))}`;
+    `Vecka ${wn} · ${svDate(data.weekStart)}–${svDate(isoDate(addDays(monday, 6)))}`;
   document.getElementById('resp-voter-name').textContent = `${voter}s matsval`;
 
-  // Summary of picks
   const summary = document.getElementById('resp-summary');
   summary.innerHTML = '';
-  const pickedMeals = [];
   (data.days || []).forEach(day => {
     (day.meals || []).forEach(meal => {
-      if (picksSet.has(meal.id)) pickedMeals.push(meal.name);
+      if (picksSet.has(meal.id)) {
+        const pill = document.createElement('span');
+        pill.className = 'pick-pill';
+        pill.textContent = meal.name;
+        summary.appendChild(pill);
+      }
     });
   });
-  if (pickedMeals.length === 0) {
+  if (!summary.children.length) {
     summary.innerHTML = '<span style="color:#6b7280;font-size:0.85rem">Inga röster registrerades.</span>';
-  } else {
-    pickedMeals.forEach(name => {
-      const pill = document.createElement('span');
-      pill.className = 'pick-pill';
-      pill.textContent = name;
-      summary.appendChild(pill);
-    });
   }
 
-  // Day cards
   const container = document.getElementById('resp-days');
   container.innerHTML = '';
-
   (data.days || []).forEach(day => {
     const card = document.createElement('div');
     card.className = 'day-card';
-
     const header = document.createElement('div');
     header.className = 'day-header';
     header.style.background = day.hue || '#f5f5f5';
@@ -1271,8 +1316,7 @@ function showResponseView() {
     body.className = 'day-body';
     const list = document.createElement('ul');
     list.className = 'meal-list';
-
-    if ((day.meals || []).length === 0) {
+    if (!(day.meals || []).length) {
       list.innerHTML = '<li class="empty-meals">Inga förslag</li>';
     } else {
       day.meals.forEach(meal => {
@@ -1282,7 +1326,7 @@ function showResponseView() {
         li.innerHTML = `
           <span style="font-size:1.1rem">${picked ? '✅' : '⬜'}</span>
           <span class="meal-name">${escHtml(meal.name)}</span>
-          <span class="meal-by">${escHtml(meal.by && meal.by !== 'Papa' ? `(${meal.by})` : '')}</span>
+          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank">↗️</a>` : ''}
         `;
         list.appendChild(li);
       });
@@ -1298,256 +1342,66 @@ document.getElementById('back-to-admin-btn').addEventListener('click', () => {
   location.reload();
 });
 
-// ─── ONLINE SUGGESTIONS (TheMealDB) ──────────────────────────────
-async function fetchSuggestions(di) {
-  const panelId = `sug-panel-${di}`;
-  const panel   = document.getElementById(panelId);
-  panel.innerHTML = `
-    <div class="online-panel">
-      <div class="online-panel-header">🌐 Hämtar förslag…</div>
-      <div class="loading-spinner">⏳ Laddar…</div>
-    </div>
-  `;
+// ─── URL SHORTENER ────────────────────────────────────────────────
+async function shortenUrl(boxId, btnId) {
+  const box = document.getElementById(boxId);
+  const btn = document.getElementById(btnId);
+  const url = box.textContent.trim();
+  if (!url.startsWith('http')) return;
 
+  btn.textContent = '⏳ Förkortar…';
+  btn.disabled    = true;
   try {
-    // Fetch 4 random meals in parallel
-    const fetches = [1, 2, 3, 4].map(() =>
-      fetch(MEALDB_URL).then(r => r.json())
-    );
-    const results = await Promise.all(fetches);
-    const names   = [...new Set(results.map(r => r.meals?.[0]?.strMeal).filter(Boolean))];
-
-    panel.innerHTML = `
-      <div class="online-panel">
-        <div class="online-panel-header">🌐 Förslag från nätet — klicka för att lägga till:</div>
-        <div class="online-suggestions" id="sug-pills-${di}"></div>
-      </div>
-    `;
-
-    const pillsContainer = document.getElementById(`sug-pills-${di}`);
-    names.forEach(name => {
-      const btn = document.createElement('button');
-      btn.className = 'online-pill';
-      btn.textContent = name;
-      btn.addEventListener('click', () => {
-        const mealInput = document.getElementById(`meal-input-${di}`);
-        mealInput.value = name;
-        panel.innerHTML = '';
-        addMeal(di);
-      });
-      pillsContainer.appendChild(btn);
-    });
-
-    // Refresh button
-    const refresh = document.createElement('button');
-    refresh.className = 'online-pill';
-    refresh.textContent = '🔄 Fler förslag';
-    refresh.style.background = '#fef9c3';
-    refresh.addEventListener('click', () => fetchSuggestions(di));
-    pillsContainer.appendChild(refresh);
-
-  } catch {
-    panel.innerHTML = `
-      <div class="online-panel">
-        <div class="online-panel-header">⚠️ Kunde inte hämta förslag just nu</div>
-      </div>
-    `;
-  }
-}
-
-// ─── KÖKET.SE INTEGRATION ────────────────────────────────────────
-const ALLORIGINS = 'https://api.allorigins.win/get?url=';
-const KOKET_BASE = 'https://www.koket.se';
-
-function slugToName(slug) {
-  const svMap = { 'a': 'a', 'o': 'o' };
-  return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-}
-
-function parseKoketUrl(url) {
-  try {
-    const u = new URL(url.trim());
-    if (!u.hostname.includes('koket.se')) return null;
-    const parts = u.pathname.split('/').filter(Boolean);
-    if (parts.length > 0 && parts[0].length > 2) {
-      return { slug: parts[0], name: slugToName(parts[0]) };
-    }
-  } catch {}
-  return null;
-}
-
-function toggleKoketPanel(di) {
-  const panel = document.getElementById(`koket-panel-${di}`);
-  if (panel.innerHTML !== '') { panel.innerHTML = ''; return; }
-  // Also close the other suggestions panel
-  document.getElementById(`sug-panel-${di}`).innerHTML = '';
-  renderKoketPanel(di);
-}
-
-function renderKoketPanel(di) {
-  const panel = document.getElementById(`koket-panel-${di}`);
-  panel.innerHTML = `
-    <div class="koket-panel">
-      <div class="koket-header">
-        🇸🇪 Sök på köket.se
-        <button class="koket-close-btn" onclick="toggleKoketPanel(${di})">✕</button>
-      </div>
-      <div class="koket-search-row">
-        <input type="text" id="koket-search-${di}" placeholder="Sök recept… (t.ex. kycklinggryta)" maxlength="60" />
-        <button class="btn-koket" onclick="runKoketSearch(${di})">Sök</button>
-      </div>
-      <div class="koket-divider">— eller —</div>
-      <div class="koket-url-row">
-        <input type="url" id="koket-url-${di}" placeholder="Klistra in köket.se-länk…" maxlength="300" />
-        <button class="btn-koket" onclick="runKoketUrl(${di})">Hämta</button>
-      </div>
-      <div id="koket-results-${di}"></div>
-    </div>
-  `;
-  const searchInput = document.getElementById(`koket-search-${di}`);
-  const urlInput    = document.getElementById(`koket-url-${di}`);
-  searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') runKoketSearch(di); });
-  urlInput.addEventListener('keydown',    e => { if (e.key === 'Enter') runKoketUrl(di); });
-  searchInput.focus();
-}
-
-async function runKoketSearch(di) {
-  const query      = document.getElementById(`koket-search-${di}`).value.trim();
-  if (!query) return;
-  const resultsEl  = document.getElementById(`koket-results-${di}`);
-  resultsEl.innerHTML = '<div class="loading-spinner" style="color:#15803d">⏳ Söker på köket.se…</div>';
-
-  try {
-    const searchUrl = `${KOKET_BASE}/search/?q=${encodeURIComponent(query)}`;
-    const res       = await fetch(`${ALLORIGINS}${encodeURIComponent(searchUrl)}`);
+    const api = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`;
+    const res = await fetch(`${ALLORIGINS}${encodeURIComponent(api)}`);
     const { contents } = await res.json();
-    const doc       = new DOMParser().parseFromString(contents, 'text/html');
-
-    // Collect recipe links: short slug paths like /pasta-bolognese/
-    const seen    = new Set();
-    const recipes = [];
-    const skip    = ['search', 'kategori', 'artikel', 'om-', 'kontakt', 'recept', 'tips', 'tidning'];
-    doc.querySelectorAll('a[href]').forEach(a => {
-      const href = (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '');
-      const text = a.textContent.trim();
-      const m    = href.match(/^\/([a-z][a-z0-9\-åäö]{3,60})\/?$/);
-      if (m && !seen.has(m[1]) && !skip.some(s => m[1].startsWith(s))) {
-        seen.add(m[1]);
-        const name = (text.length > 4 && text.length < 80) ? text : slugToName(m[1]);
-        recipes.push({ name, url: `${KOKET_BASE}/${m[1]}/` });
-      }
-    });
-
-    if (recipes.length === 0) {
-      resultsEl.innerHTML = '<div class="koket-no-results">Inga träffar. Prova ett annat sökord eller klistra in en länk.</div>';
-      return;
+    const short = contents.trim();
+    if (short.startsWith('http')) {
+      box.textContent  = short;
+      btn.textContent  = '✅ Förkortad!';
+    } else {
+      throw new Error('bad response');
     }
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'online-suggestions';
-    wrapper.style.marginTop = '8px';
-    recipes.slice(0, 8).forEach(recipe => {
-      const btn = document.createElement('button');
-      btn.className = 'online-pill koket-pill';
-      btn.textContent = recipe.name;
-      btn.title = recipe.url;
-      btn.addEventListener('click', () => {
-        plan.days[di].meals.push({ id: uid(), name: recipe.name, by: 'köket.se', link: recipe.url });
-        savePlan();
-        document.getElementById(`koket-panel-${di}`).innerHTML = '';
-        renderAdmin();
-        showToast(`${recipe.name} tillagd! 🍽️`);
-      });
-      wrapper.appendChild(btn);
-    });
-    resultsEl.innerHTML = '';
-    resultsEl.appendChild(wrapper);
-
   } catch {
-    resultsEl.innerHTML = '<div class="koket-no-results">⚠️ Kunde inte söka just nu. Klistra in en länk istället.</div>';
+    btn.textContent = '⚠️ Misslyckades';
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => { btn.textContent = '🔗 Förkorta länk'; }, 3000);
   }
-}
-
-async function runKoketUrl(di) {
-  const urlVal    = document.getElementById(`koket-url-${di}`).value.trim();
-  const resultsEl = document.getElementById(`koket-results-${di}`);
-  const parsed    = parseKoketUrl(urlVal);
-
-  if (!parsed) {
-    resultsEl.innerHTML = '<div class="koket-no-results">⚠️ Verkar inte vara en giltig köket.se-länk.</div>';
-    return;
-  }
-
-  resultsEl.innerHTML = '<div class="loading-spinner" style="color:#15803d">⏳ Hämtar receptnamn…</div>';
-
-  let name = parsed.name;
-  try {
-    const res            = await fetch(`${ALLORIGINS}${encodeURIComponent(urlVal)}`);
-    const { contents }   = await res.json();
-    const doc            = new DOMParser().parseFromString(contents, 'text/html');
-    const og             = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
-    const h1             = doc.querySelector('h1')?.textContent?.trim();
-    const fetched        = (og || h1 || '').replace(/\s*[|\-–].*$/, '').trim();
-    if (fetched.length > 2) name = fetched;
-  } catch {}
-
-  const safeUrl  = escHtml(urlVal);
-  const safeName = escHtml(name);
-  resultsEl.innerHTML = `
-    <div class="koket-preview">
-      <div class="koket-preview-name">🍴 ${safeName}</div>
-      <button class="btn btn-green btn-sm" onclick="confirmKoketMeal(${di}, \`${safeName}\`, \`${safeUrl}\`)">
-        + Lägg till
-      </button>
-    </div>
-  `;
-}
-
-function confirmKoketMeal(di, name, url) {
-  plan.days[di].meals.push({ id: uid(), name, by: 'köket.se', link: url });
-  savePlan();
-  document.getElementById(`koket-panel-${di}`).innerHTML = '';
-  renderAdmin();
-  showToast(`${name} tillagd! 🍽️`);
 }
 
 // ─── UTILITIES ────────────────────────────────────────────────────
 function escHtml(str) {
   if (!str) return '';
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function copyToClipboard(text, successMsg) {
+function escJs(str) {
+  if (!str) return '';
+  return str.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+}
+
+function copyToClipboard(text, msg) {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => showToast(successMsg));
+    navigator.clipboard.writeText(text).then(() => showToast(msg));
   } else {
-    // Fallback for older browsers
     const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity  = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast(successMsg);
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showToast(msg);
   }
 }
 
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.add('hidden');
-  });
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.add('hidden'); });
 });
 
 // ─── BOOT ─────────────────────────────────────────────────────────
