@@ -945,9 +945,10 @@ document.getElementById('next-week-btn').addEventListener('click', () => {
   renderAdmin();
 });
 
-// Share
+// Share — include favorites so children can pick from them in vote mode
 document.getElementById('share-btn').addEventListener('click', () => {
-  const url = location.origin + location.pathname + '#' + encode(plan);
+  const shareData = favorites.length ? { ...plan, favs: favorites } : plan;
+  const url = location.origin + location.pathname + '#' + encode(shareData);
   document.getElementById('share-url-text').textContent = url;
   document.getElementById('share-modal').classList.remove('hidden');
 });
@@ -1143,11 +1144,14 @@ async function runKoketUrl(di) {
 }
 
 // ─── VOTE VIEW ────────────────────────────────────────────────────
+let sharedFavs = []; // favorites shared from parent via URL
+
 function showVoteView() {
   document.getElementById('admin-view').style.display    = 'none';
   document.getElementById('vote-view').style.display     = '';
   document.getElementById('response-view').style.display = 'none';
 
+  sharedFavs = plan.favs || [];
   plan.days.forEach((_, i) => { myPicks[i] = new Set(); mySuggestions[i] = []; });
 
   const monday = new Date(plan.weekStart + 'T12:00:00');
@@ -1206,12 +1210,17 @@ function renderVote() {
     addRow.className = 'add-meal-row';
     addRow.innerHTML = `
       <input type="text" placeholder="Eget förslag…" id="vote-input-${di}" maxlength="60" />
-      <button class="btn btn-ghost btn-sm" onclick="addVoteSuggestion(${di})">+ Förslag</button>
+      <button class="btn btn-ghost btn-sm" onclick="addVoteSuggestion(${di})">+ Skriv</button>
+      <button class="btn-suggest" onclick="showVoteSuggestions(${di})" title="Välj bland rätter">🇸🇪 Välj rätt</button>
     `;
     addRow.querySelector('input').addEventListener('keydown', e => {
       if (e.key === 'Enter') addVoteSuggestion(di);
     });
     body.appendChild(addRow);
+
+    const votePanel = document.createElement('div');
+    votePanel.id = `vote-sug-panel-${di}`;
+    body.appendChild(votePanel);
 
     card.appendChild(body);
     container.appendChild(card);
@@ -1233,6 +1242,76 @@ function addVoteSuggestion(di) {
   myPicks[di].add(meal.id);
   input.value = '';
   renderVote();
+}
+
+function showVoteSuggestions(di) {
+  const panel = document.getElementById(`vote-sug-panel-${di}`);
+  if (panel.innerHTML !== '') { panel.innerHTML = ''; return; }
+
+  const alreadyShown = new Set([
+    ...plan.days[di].meals.map(m => m.name),
+    ...(mySuggestions[di] || []).map(m => m.name),
+  ]);
+
+  let html = '<div class="online-panel" style="background:#f0fdf4;border-color:#86efac;">';
+
+  // Favorites section
+  if (sharedFavs.length > 0) {
+    html += '<div class="online-panel-header" style="color:#15803d;">⭐ Favoriter — klicka för att lägga till och rösta:</div>';
+    html += '<div class="online-suggestions" id="vote-fav-pills-' + di + '" style="margin-bottom:10px;"></div>';
+  }
+
+  // Swedish meals section
+  const pool  = SWEDISH_MEALS.filter(m => !alreadyShown.has(m));
+  const picks = pool.sort(() => Math.random() - 0.5).slice(0, 6);
+  html += '<div class="online-panel-header" style="color:#92400e;margin-top:' + (sharedFavs.length ? '4' : '0') + 'px;">🍽️ Fler förslag:</div>';
+  html += '<div class="online-suggestions" id="vote-meal-pills-' + di + '"></div>';
+  html += '</div>';
+
+  panel.innerHTML = html;
+
+  // Populate favorites
+  if (sharedFavs.length > 0) {
+    const favPills = document.getElementById(`vote-fav-pills-${di}`);
+    sharedFavs.forEach(fav => {
+      if (alreadyShown.has(fav.name)) return;
+      const btn = document.createElement('button');
+      btn.className = 'online-pill';
+      btn.style.cssText = 'background:white;border-color:#86efac;color:#15803d;';
+      btn.textContent = '⭐ ' + fav.name;
+      btn.addEventListener('click', () => addVoteFromPicker(di, fav.name, fav.link || ''));
+      favPills.appendChild(btn);
+    });
+    if (!favPills.children.length) {
+      favPills.innerHTML = '<span style="font-size:0.8rem;color:#a8a29e">Alla favoriter är redan med.</span>';
+    }
+  }
+
+  // Populate Swedish meals
+  const mealPills = document.getElementById(`vote-meal-pills-${di}`);
+  picks.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'online-pill';
+    btn.textContent = name;
+    btn.addEventListener('click', () => addVoteFromPicker(di, name, ''));
+    mealPills.appendChild(btn);
+  });
+  const more = document.createElement('button');
+  more.className = 'online-pill';
+  more.textContent = '🔄 Fler';
+  more.style.background = '#fef9c3';
+  more.addEventListener('click', () => { panel.innerHTML = ''; showVoteSuggestions(di); });
+  mealPills.appendChild(more);
+}
+
+function addVoteFromPicker(di, name, link) {
+  const voterName = document.getElementById('voter-name-input').value.trim() || 'Barn';
+  const meal      = { id: uid(), name, by: voterName, link };
+  mySuggestions[di].push(meal);
+  myPicks[di].add(meal.id);
+  document.getElementById(`vote-sug-panel-${di}`).innerHTML = '';
+  renderVote();
+  showToast(`${name} tillagd och vald! 👍`);
 }
 
 document.getElementById('send-vote-btn').addEventListener('click', () => {
