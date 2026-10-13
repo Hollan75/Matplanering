@@ -415,6 +415,124 @@
       color: #92400e;
     }
 
+    /* ── KÖKET.SE PANEL ── */
+    .koket-panel {
+      margin-top: 8px;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .koket-header {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .koket-close-btn {
+      background: none;
+      border: none;
+      color: #6b7280;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0 2px;
+    }
+
+    .koket-search-row, .koket-url-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .koket-search-row input, .koket-url-row input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1.5px solid #86efac;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: white;
+      font-family: inherit;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .koket-search-row input:focus, .koket-url-row input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .koket-divider {
+      font-size: 0.72rem;
+      color: #a3e4a3;
+      text-align: center;
+      margin: 2px 0 8px;
+    }
+
+    .btn-koket {
+      background: #15803d;
+      color: white;
+      border-radius: 8px;
+      font-family: inherit;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-koket:hover { background: #166534; }
+
+    .koket-no-results { font-size: 0.8rem; color: #6b7280; padding: 4px 0; }
+
+    .koket-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: white;
+      border-radius: 8px;
+      border: 1.5px solid #86efac;
+    }
+
+    .koket-preview-name { font-weight: 600; font-size: 0.9rem; flex: 1; }
+
+    .koket-pill {
+      background: white !important;
+      border-color: #86efac !important;
+      color: #15803d !important;
+    }
+
+    .koket-pill:hover { background: #dcfce7 !important; border-color: #4ade80 !important; }
+
+    .meal-link {
+      color: var(--green);
+      font-size: 0.85rem;
+      text-decoration: none;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    .meal-link:hover { opacity: 1; }
+
+    .btn-koket-trigger {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-koket-trigger:hover { background: #bbf7d0; }
+
     /* ── FLOATING ACTION BUTTONS ── */
     .fab-area {
       position: fixed;
@@ -850,6 +968,7 @@ function renderAdmin() {
         li.className = 'meal-item';
         li.innerHTML = `
           <span class="meal-name">${escHtml(meal.name)}</span>
+          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Öppna recept på köket.se">↗️</a>` : ''}
           <span class="meal-by">${escHtml(meal.by || '')}</span>
           <button class="del-btn" title="Ta bort" onclick="deleteMeal(${di},${mi})">✕</button>
         `;
@@ -864,7 +983,8 @@ function renderAdmin() {
     addRow.innerHTML = `
       <input type="text" placeholder="Lägg till rätt…" id="meal-input-${di}" maxlength="60" />
       <button class="btn btn-primary btn-sm" onclick="addMeal(${di})">+ Lägg till</button>
-      <button class="btn-suggest" onclick="fetchSuggestions(${di})" title="Hämta förslag från internet">🌐 Förslag</button>
+      <button class="btn-suggest" onclick="fetchSuggestions(${di})" title="Slumpa rätt från nätet">🌐</button>
+      <button class="btn-koket-trigger" onclick="toggleKoketPanel(${di})" title="Sök och hämta från köket.se">köket.se</button>
     `;
     body.appendChild(addRow);
 
@@ -872,6 +992,11 @@ function renderAdmin() {
     const sugPanel = document.createElement('div');
     sugPanel.id = `sug-panel-${di}`;
     body.appendChild(sugPanel);
+
+    // Köket.se panel placeholder
+    const koketPanel = document.createElement('div');
+    koketPanel.id = `koket-panel-${di}`;
+    body.appendChild(koketPanel);
 
     // Enter key on input
     addRow.querySelector('input').addEventListener('keydown', e => {
@@ -1001,6 +1126,7 @@ function renderVote() {
             ${voted ? '✓' : '👍'}
           </button>
           <span class="meal-name">${escHtml(meal.name)}</span>
+          ${meal.link ? `<a class="meal-link" href="${escHtml(meal.link)}" target="_blank" title="Öppna recept">↗️</a>` : ''}
           <span class="meal-by">${escHtml(meal.by === 'Papa' ? '(Papa)' : meal.by ? `(${meal.by})` : '')}</span>
         `;
         list.appendChild(li);
@@ -1227,6 +1353,162 @@ async function fetchSuggestions(di) {
       </div>
     `;
   }
+}
+
+// ─── KÖKET.SE INTEGRATION ────────────────────────────────────────
+const ALLORIGINS = 'https://api.allorigins.win/get?url=';
+const KOKET_BASE = 'https://www.koket.se';
+
+function slugToName(slug) {
+  const svMap = { 'a': 'a', 'o': 'o' };
+  return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function parseKoketUrl(url) {
+  try {
+    const u = new URL(url.trim());
+    if (!u.hostname.includes('koket.se')) return null;
+    const parts = u.pathname.split('/').filter(Boolean);
+    if (parts.length > 0 && parts[0].length > 2) {
+      return { slug: parts[0], name: slugToName(parts[0]) };
+    }
+  } catch {}
+  return null;
+}
+
+function toggleKoketPanel(di) {
+  const panel = document.getElementById(`koket-panel-${di}`);
+  if (panel.innerHTML !== '') { panel.innerHTML = ''; return; }
+  // Also close the other suggestions panel
+  document.getElementById(`sug-panel-${di}`).innerHTML = '';
+  renderKoketPanel(di);
+}
+
+function renderKoketPanel(di) {
+  const panel = document.getElementById(`koket-panel-${di}`);
+  panel.innerHTML = `
+    <div class="koket-panel">
+      <div class="koket-header">
+        🇸🇪 Sök på köket.se
+        <button class="koket-close-btn" onclick="toggleKoketPanel(${di})">✕</button>
+      </div>
+      <div class="koket-search-row">
+        <input type="text" id="koket-search-${di}" placeholder="Sök recept… (t.ex. kycklinggryta)" maxlength="60" />
+        <button class="btn-koket" onclick="runKoketSearch(${di})">Sök</button>
+      </div>
+      <div class="koket-divider">— eller —</div>
+      <div class="koket-url-row">
+        <input type="url" id="koket-url-${di}" placeholder="Klistra in köket.se-länk…" maxlength="300" />
+        <button class="btn-koket" onclick="runKoketUrl(${di})">Hämta</button>
+      </div>
+      <div id="koket-results-${di}"></div>
+    </div>
+  `;
+  const searchInput = document.getElementById(`koket-search-${di}`);
+  const urlInput    = document.getElementById(`koket-url-${di}`);
+  searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') runKoketSearch(di); });
+  urlInput.addEventListener('keydown',    e => { if (e.key === 'Enter') runKoketUrl(di); });
+  searchInput.focus();
+}
+
+async function runKoketSearch(di) {
+  const query      = document.getElementById(`koket-search-${di}`).value.trim();
+  if (!query) return;
+  const resultsEl  = document.getElementById(`koket-results-${di}`);
+  resultsEl.innerHTML = '<div class="loading-spinner" style="color:#15803d">⏳ Söker på köket.se…</div>';
+
+  try {
+    const searchUrl = `${KOKET_BASE}/search/?q=${encodeURIComponent(query)}`;
+    const res       = await fetch(`${ALLORIGINS}${encodeURIComponent(searchUrl)}`);
+    const { contents } = await res.json();
+    const doc       = new DOMParser().parseFromString(contents, 'text/html');
+
+    // Collect recipe links: short slug paths like /pasta-bolognese/
+    const seen    = new Set();
+    const recipes = [];
+    const skip    = ['search', 'kategori', 'artikel', 'om-', 'kontakt', 'recept', 'tips', 'tidning'];
+    doc.querySelectorAll('a[href]').forEach(a => {
+      const href = (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '');
+      const text = a.textContent.trim();
+      const m    = href.match(/^\/([a-z][a-z0-9\-åäö]{3,60})\/?$/);
+      if (m && !seen.has(m[1]) && !skip.some(s => m[1].startsWith(s))) {
+        seen.add(m[1]);
+        const name = (text.length > 4 && text.length < 80) ? text : slugToName(m[1]);
+        recipes.push({ name, url: `${KOKET_BASE}/${m[1]}/` });
+      }
+    });
+
+    if (recipes.length === 0) {
+      resultsEl.innerHTML = '<div class="koket-no-results">Inga träffar. Prova ett annat sökord eller klistra in en länk.</div>';
+      return;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'online-suggestions';
+    wrapper.style.marginTop = '8px';
+    recipes.slice(0, 8).forEach(recipe => {
+      const btn = document.createElement('button');
+      btn.className = 'online-pill koket-pill';
+      btn.textContent = recipe.name;
+      btn.title = recipe.url;
+      btn.addEventListener('click', () => {
+        plan.days[di].meals.push({ id: uid(), name: recipe.name, by: 'köket.se', link: recipe.url });
+        savePlan();
+        document.getElementById(`koket-panel-${di}`).innerHTML = '';
+        renderAdmin();
+        showToast(`${recipe.name} tillagd! 🍽️`);
+      });
+      wrapper.appendChild(btn);
+    });
+    resultsEl.innerHTML = '';
+    resultsEl.appendChild(wrapper);
+
+  } catch {
+    resultsEl.innerHTML = '<div class="koket-no-results">⚠️ Kunde inte söka just nu. Klistra in en länk istället.</div>';
+  }
+}
+
+async function runKoketUrl(di) {
+  const urlVal    = document.getElementById(`koket-url-${di}`).value.trim();
+  const resultsEl = document.getElementById(`koket-results-${di}`);
+  const parsed    = parseKoketUrl(urlVal);
+
+  if (!parsed) {
+    resultsEl.innerHTML = '<div class="koket-no-results">⚠️ Verkar inte vara en giltig köket.se-länk.</div>';
+    return;
+  }
+
+  resultsEl.innerHTML = '<div class="loading-spinner" style="color:#15803d">⏳ Hämtar receptnamn…</div>';
+
+  let name = parsed.name;
+  try {
+    const res            = await fetch(`${ALLORIGINS}${encodeURIComponent(urlVal)}`);
+    const { contents }   = await res.json();
+    const doc            = new DOMParser().parseFromString(contents, 'text/html');
+    const og             = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+    const h1             = doc.querySelector('h1')?.textContent?.trim();
+    const fetched        = (og || h1 || '').replace(/\s*[|\-–].*$/, '').trim();
+    if (fetched.length > 2) name = fetched;
+  } catch {}
+
+  const safeUrl  = escHtml(urlVal);
+  const safeName = escHtml(name);
+  resultsEl.innerHTML = `
+    <div class="koket-preview">
+      <div class="koket-preview-name">🍴 ${safeName}</div>
+      <button class="btn btn-green btn-sm" onclick="confirmKoketMeal(${di}, \`${safeName}\`, \`${safeUrl}\`)">
+        + Lägg till
+      </button>
+    </div>
+  `;
+}
+
+function confirmKoketMeal(di, name, url) {
+  plan.days[di].meals.push({ id: uid(), name, by: 'köket.se', link: url });
+  savePlan();
+  document.getElementById(`koket-panel-${di}`).innerHTML = '';
+  renderAdmin();
+  showToast(`${name} tillagd! 🍽️`);
 }
 
 // ─── UTILITIES ────────────────────────────────────────────────────
